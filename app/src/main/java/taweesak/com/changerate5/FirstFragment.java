@@ -31,7 +31,7 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
     RadioGroup radioGroup;
     RadioButton radioButton;
 
-    String str;
+    int selectId,choice;
 
     @Override
     public void onAttach(Context context) {
@@ -67,9 +67,25 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
     }
 
     private void convertValue() {
-        str = editText.getText().toString();
-        Toast.makeText(getActivity(),"Message "+str ,Toast.LENGTH_LONG).show();
-        txtView.setText(str);
+        selectId =radioGroup.getCheckedRadioButtonId();
+        radioButton = getActivity().findViewById(selectId);
+        switch (radioButton.getId()){
+            case R.id.zeroText:
+                choice = 0;
+                break;
+            case R.id.oneText:
+                choice = 1;
+                break;
+            case R.id.twotext:
+                choice = 2;
+                break;
+        }
+
+        double valueRate = Double.parseDouble(editText.getText().toString());
+        Model model = new Model(choice,valueRate);
+
+        txtView.setText("rate = "+model.getRates());
+        Toast.makeText(getActivity(),"Message "+choice ,Toast.LENGTH_LONG).show();
     }
 
     private void findView(View view) {
@@ -79,6 +95,9 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
         tvChoice = view.findViewById(R.id.tvChoice);
         mvChoice = view.findViewById(R.id.mvChoice);
         radioGroup = (RadioGroup)view.findViewById(R.id.raidoButton);
+
+        /*selectId =radioGroup.getCheckedRadioButtonId();
+        radioButton = view.findViewById(selectId);*/
     }
 
 
@@ -94,6 +113,5 @@ public class FirstFragment extends Fragment implements View.OnClickListener {
                 convertValue();
                 break;
         }
-
     }
 }
